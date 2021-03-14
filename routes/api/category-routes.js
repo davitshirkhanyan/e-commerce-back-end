@@ -5,7 +5,9 @@ const { Category, Product } = require('../../models');
 // find all categories
 router.get('/', (req, res) => {
   Category.findAll({
-    
+    include: [{
+      model: Product
+    }]
   }).then(dbCategoryData => res.json(dbCategoryData))
     .catch(err => {
       console.log(err);
@@ -18,7 +20,11 @@ router.get('/:id', (req, res) => {
   Category.findOne({
     where: {
       id: req.params.id
-    }
+    },
+    
+    include: [{
+      model: Product
+    }]
   }).then(dbCategoryData => {
     if (!dbCategoryData) {
       res.status(404).json({ message: 'No user found with this id' });
